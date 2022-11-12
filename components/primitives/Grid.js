@@ -2,7 +2,9 @@ import styles from '@/scss/grid.module.scss'
 
 export default function Grid(props) {
   const propStyle = {
-    flexDirection: props.layout
+    flexDirection: props.layout,
+    rowGap: props.layout === 'column' ? props.spaceBetween ? `${props.spaceBetween}rem` : '' : '',
+    columnGap: props.layout === 'row' ? props.spaceBetween ? `${props.spaceBetween}rem` : '' : ''
   }
 
   return (
@@ -20,7 +22,7 @@ export function Row(props) {
   }
 
   return( 
-    <div className={styles.row}
+    <div className={`${styles.row} ${props.className}`}
       style={propStyle}
     >
       {props.children}
@@ -33,7 +35,7 @@ export function Col(props) {
     rowGap: props.spaceBetween ? `${props.spaceBetween}rem` : ''
   }
   return(
-    <div className={styles.col}
+    <div className={`${styles.col} ${props.className}`}
       style={propStyle}
     >
       {props.children}
