@@ -69,6 +69,12 @@ export default function Header() {
           >
             <h3 className={styles.text}>Discussions</h3>
           </Link>
+          <Link className={`${styles.button} ${r_state.current_page === 'GAMES' ? styles.button__active : ''}`}
+            onClick={a_games}
+            href={'/games'}
+          >
+            <h3 className={styles.text}>Games</h3>
+          </Link>
           <Link className={`${styles.button} ${r_state.current_page === 'HALL_OF_FAME' ? styles.button__active : ''}`}
             onClick={a_hall_of_fame}
             href={'/hall-of-fame'}
@@ -148,6 +154,14 @@ function a_discussions() {
     current_page: 'DISCUSSIONS'
   })
 }
+
+function a_games() {
+  reactiveState({
+    ...reactiveState(),
+    current_page: 'GAMES'
+  })
+}
+
 function a_hall_of_fame() {
   reactiveState({
     ...reactiveState(),
