@@ -4,7 +4,7 @@
     "paths": {
       "@/scss/*": ["styles/modules/*"],
       "@/primitives/*": ["components/primitives/*"],
-      "@/prefabs/*" : ["components/prefabs/*"]
+      "@/prefabs/*" : ["components/prefabs/*"],
     }
   }
 }
