@@ -9,7 +9,6 @@ import { useReactiveVar } from '@apollo/client'
 import Link from 'next/link'
 
 import { mdiAccount, mdiLogin, mdiLogout } from '@mdi/js'
-import { useEffect } from 'react'
 
 export default function Header() {
 
@@ -55,7 +54,7 @@ export default function Header() {
             onClick={a_home}
             href={'/'}
           >
-            <h1 className={styles.text}>DGG Brain Trust</h1>
+            <h1 className={styles.text}>The Colosseum</h1>
           </Link>
           <Link className={`${styles.button} ${r_state.current_page === 'PREDICTIONS' ? styles.button__active : ''}`}
             onClick={a_predictions}
