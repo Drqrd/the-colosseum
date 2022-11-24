@@ -6,10 +6,10 @@
   }
   &__title {
     color:var(--color-font-secondary);
-    padding-top: 2.4rem;
+    margin-top: 2.4rem;
   }
   &__description_container {
-    padding: 2.4rem 0;
+    margin: 2.4rem 0;
     width:50%
   }
   &__description {
@@ -25,13 +25,14 @@
     align-items: center;
   }
   &__label {
-    padding-top: 1rem;
-    padding-bottom: .5rem;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
     font-weight: bold;
     color: var(--color-font-tertiary);
+    cursor: text;
 
     &:first-child {
-      padding-top: 2rem;
+      margin-top: 2rem;
     }
   }
   &__input {
@@ -54,6 +55,7 @@
     font-weight:bold;
     color: var(--color-font-primary);
     background-color: var(--color-bg-secondary);
+    cursor: pointer;
   }
 
   &__checkbox_label {
