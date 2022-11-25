@@ -10,7 +10,7 @@
   }
   &__description_container {
     margin: 2.4rem 0;
-    width:50%
+    width:50%;
   }
   &__description {
     font-size: 1.2rem;
@@ -79,6 +79,27 @@
     &:hover {
       cursor: pointer;
       opacity: 50%;
+    }
+  }
+
+  &__wrong_login {
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    padding:.5rem;
+    justify-content: center;
+    align-items: center;
+    border: solid .08rem coral;
+    border-radius: .25rem;
+    background-color: rgb(240, 178, 178);
+    
+    &__title {
+      font-weight: bold;
+      margin: .5rem .5rem .25rem .5rem;
+    }
+
+    &__description {
+      margin: .25rem .5rem .5rem .5rem;
     }
   }
 }
