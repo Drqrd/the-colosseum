@@ -19,11 +19,20 @@ export function ModalLogin() {
   
   const TRY_LOGIN = gql`
     query TryLogin($username: String!, $password: String!) {
-      tryLogin(username: $username, password: $password)
+      login(username: $username, password: $password)
     }
   `
   const [tryLogin, {login_loading, login_error, login_data}] = useLazyQuery(TRY_LOGIN, { 
-    variables : { username, password }
+    variables : { username, password },
+    /*
+    context: {
+      headers: {
+        authorization: `${
+          reactiveState.user.token ? reactiveState.user.token : ''
+        }`,
+      }
+    }
+    */
   })
 
   function modalLogin_handleCheckbox() {
@@ -32,7 +41,19 @@ export function ModalLogin() {
 
   function modalLogin_formSubmit() {
     tryLogin(username, password).then((resp) => {
-      modalLogin_correctLogin(resp.data.tryLogin)
+      
+      reactiveState({
+        ...reactiveState,
+        user: {
+          ...reactiveState.user,
+          logged_in: resp.data
+        }
+      })
+
+      if (resp.data) {
+        localStorage.setItem('token', resp.data.login.token)
+        localStorage.setItem('userId', resp.data.login.id)
+      }
     })
   }
 
@@ -62,7 +83,7 @@ export function ModalLogin() {
         <label className={styles.login__label}>Username or Email Address</label>
         <input className={styles.login__input} type={'text'} onChange={e => {modalLogin_setUsername(e.currentTarget.value)}}></input>
         <label className={styles.login__label}>Password</label>
-        <input className={styles.login__input} type={'text'} onChange={e => {modalLogin_setPassword(e.currentTarget.value)}}></input>
+        <input className={styles.login__input} type={'password'} onChange={e => {modalLogin_setPassword(e.currentTarget.value)}}></input>
         <div className={styles.login__checkbox_container}>
           <input className={styles.login__checkbox} type={'checkbox'} onChange={modalLogin_handleCheckbox}></input>
           <label className={`${styles.login__label} ${styles.login__checkbox_label}`}>Remember Me</label>
@@ -86,7 +107,7 @@ export function ModalLogin() {
         <label className={styles.login__label}>Username or Email Address</label>
         <input className={styles.login__input} type={'text'} onChange={e => {modalLogin_setUsername(e.currentTarget.value)}}></input>
         <label className={styles.login__label}>Password</label>
-        <input className={styles.login__input} type={'text'} onChange={e => {modalLogin_setPassword(e.currentTarget.value)}}></input>
+        <input className={styles.login__input} type={'password'} onChange={e => {modalLogin_setPassword(e.currentTarget.value)}}></input>
         <div className={styles.login__checkbox_container}>
           <input className={styles.login__checkbox} type={'checkbox'} onChange={modalLogin_handleCheckbox}></input>
           <label className={`${styles.login__label} ${styles.login__checkbox_label}`}>Remember Me</label>
