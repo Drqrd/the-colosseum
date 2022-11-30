@@ -1,5 +1,4 @@
 // cache.tsx
-
 import { makeVar, InMemoryCache } from '@apollo/client'
 
 // initialization
@@ -9,6 +8,8 @@ export const reactiveState = makeVar({})
 reactiveState({
   user: {
     logged_in: false,
+    token: null,
+    id: null,
   },
   current_page: 'HOME',
   active_modal: null
