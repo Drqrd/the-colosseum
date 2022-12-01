@@ -1,7 +1,11 @@
 import 'styles/globals.scss'
 
-import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider } from '@apollo/client'
+import Head from 'next/head'
+
+import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider, useReactiveVar } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+
+import { reactiveState } from 'models/cache'
 
 import Layout from 'components/Layout'
 
@@ -13,7 +17,7 @@ export default function MyApp({ Component, pageProps }) {
   })
 
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token')
+    const token = useReactiveVar(reactiveState).user.token
 
     return {
       headers: {
@@ -32,6 +36,10 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
       <Layout>
+        <Head>
+          <title>The Colosseum</title>
+          <link rel="shortcut icon" href="/favicons/favicon.ico" />
+        </Head>
         <Component
           {...pageProps}
         />
