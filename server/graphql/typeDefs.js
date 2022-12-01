@@ -20,7 +20,7 @@ input RegisterInput {
 type Query {
   users: [User]
   getUserById(id: ID!): User,
-  login(username: String!, password: String!): Boolean!
+  login(loginInput: LoginInput): Boolean!
 }
 
 type Mutation {
