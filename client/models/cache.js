@@ -9,7 +9,6 @@ reactiveState({
   user: {
     logged_in: false,
     token: null,
-    id: null,
   },
   current_page: 'HOME',
   active_modal: null
