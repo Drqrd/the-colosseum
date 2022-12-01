@@ -13,26 +13,17 @@ export function ModalLogin() {
   const [username, modalLogin_setUsername] = useState('')
   const [password, modalLogin_setPassword] = useState('')
   const [rememberMe, modalLogin_setRememberMe] = useState(false)
-  const [correctLogin, modalLogin_correctLogin] = useState(null)
+  const [correctLogin, modalLogin_setCorrectLogin] = useState(null)
   
   const description = 'Accessing further features requires a login.\nPlease enter your credentials below!'
   
   const TRY_LOGIN = gql`
-    query TryLogin($username: String!, $password: String!) {
+    query Login($username: String!, $password: String!) {
       login(username: $username, password: $password)
     }
   `
   const [tryLogin, {login_loading, login_error, login_data}] = useLazyQuery(TRY_LOGIN, { 
     variables : { username, password },
-    /*
-    context: {
-      headers: {
-        authorization: `${
-          reactiveState.user.token ? reactiveState.user.token : ''
-        }`,
-      }
-    }
-    */
   })
 
   function modalLogin_handleCheckbox() {
@@ -51,8 +42,13 @@ export function ModalLogin() {
       })
 
       if (resp.data) {
-        localStorage.setItem('token', resp.data.login.token)
-        localStorage.setItem('userId', resp.data.login.id)
+        reactiveState({
+          ...reactiveState,
+          user: {
+            ...reactiveState.user,
+            token: resp.data.login.token
+          }
+        })
       }
     })
   }
@@ -65,7 +61,7 @@ export function ModalLogin() {
 
   }
 
-  const modal = correctLogin != null && !correctLogin  ? 
+  const loginModal = correctLogin != null && !correctLogin  ? 
     <Modal
         className={styles.login__container}
     >
@@ -118,17 +114,90 @@ export function ModalLogin() {
       <button className={`${styles.login__forgot_password} ${styles.login__label}`}
         onClick={modalLogin_forgotPassword}
       >Forgot Password?</button>
+
+      <button className={`${styles.login__register} ${styles.login__label}`}
+        onClick={modalToModalTransition('REGISTER')}
+      ></button>
     </Modal>
 
   return (
-    modal
+    loginModal
+  )
+}
+
+export function ModalRegister() {
+
+  const [email, modalRegister_setEmail] = useState('')
+  const [username, modalRegister_setUsername] = useState('')
+  const [password, modalRegister_setPassword] = useState('')
+
+  const TRY_REGISTER = gql`
+    query Register($email: String!, $username: String!, $password: String!) {
+      register({email: $email, username: $username, password: $password})
+    }
+  `
+  const [tryRegister, {register_loading, register_error, register_data}] = useLazyQuery(TRY_REGISTER, { 
+    variables : { email, username, password },
+  })
+
+
+  function modalRegister_formSubmit() {
+    tryRegister(email, username, password).then((resp) => {
+      if (resp.data) {
+        console.log('success')
+      }
+      else {
+        console.log('failure')
+      }
+    })
+  }
+
+  const registerModal = !correctRegister ? 
+    <Modal>
+      <h2 className={styles.register__title}>Register</h2>
+
+      <div className={styles.login__wrong_login}>
+        <div className={styles.login__wrong_login__title}>Wrong Credentials</div>
+        <div className={styles.login__wrong_login__description}>Incorrect Username or Password</div>
+      </div>
+
+      <form className={styles.register__form}>
+      <label className={styles.register__label}>Email Address</label>
+        <input className={styles.register__input} type={'text'} onChange={e => {modalRegister_setEmail(e.currentTarget.value)}}></input>
+        <label className={styles.register__label}>Username</label>
+        <input className={styles.register__input} type={'text'} onChange={e => {modalRegister_setUsername(e.currentTarget.value)}}></input>
+        <label className={styles.register__label}>Password</label>
+        <input className={styles.register__input} type={'password'} onChange={e => {modalRegister_setPassword(e.currentTarget.value)}}></input>
+        <input className={styles.register__form_submit} type={'button'} value={'Register'} onClick={modalRegister_formSubmit}></input>
+      </form>
+    </Modal> : 
+    <Modal>
+      <h2 className={styles.register__title}>Register</h2>
+
+      <div className={styles.register__invalid_register}>
+        <div className={styles.register__invalid_register__title}>Wrong Credentials</div>
+        <div className={styles.register__invalid_register__description}>Incorrect Username or Password</div>
+      </div>
+
+      <form className={styles.register__form}>
+        <label className={styles.register__label}>Email Address</label>
+        <input className={styles.register__input} type={'text'} onChange={e => {modalRegister_setEmail(e.currentTarget.value)}}></input>
+        <label className={styles.register__label}>Username</label>
+        <input className={styles.register__input} type={'text'} onChange={e => {modalRegister_setUsername(e.currentTarget.value)}}></input>
+        <label className={styles.register__label}>Password</label>
+        <input className={styles.register__input} type={'password'} onChange={e => {modalRegister_setPassword(e.currentTarget.value)}}></input>
+        <input className={styles.register__form_submit} type={'button'} value={'Register'} onClick={modalRegister_formSubmit}></input>
+      </form>
+    </Modal>
+
+  return (
+    registerModal
   )
 }
 
 export function ModalForgotPassword() {
   return (
     <Modal>
-      
     </Modal>
   )
 }
