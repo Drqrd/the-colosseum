@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/scss/*": ["styles/modules/*"],
+      "@/primitives/*": ["components/primitives/*"],
+      "@/prefabs/*" : ["components/prefabs/*"],
+      "@/modals/*": ["components/prefabs/modals/*"]
+    }
+  }
+}
