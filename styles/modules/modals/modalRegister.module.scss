@@ -1,0 +1,68 @@
+.register {
+  &__container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__title {
+    color:var(--color-font-secondary);
+    margin-top: 2.4rem;
+  }
+  &__form {
+    display: flex;
+    flex-direction:column;
+    width: 50%;
+    align-items: center;
+  }
+  &__label {
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    font-weight: bold;
+    color: var(--color-font-tertiary);
+    cursor: text;
+
+    &:first-child {
+      margin-top: 2rem;
+    }
+  }
+  &__input {
+    padding:.5rem;
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+    width: 100%;
+
+    border: solid var(--color-btn-secondary) .1rem;
+    border-radius: .25rem;
+  }
+  &__form_submit {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    padding:.5rem 2.5rem;
+
+    border-radius:2rem;
+    font-size: 1.6rem;
+    font-weight:bold;
+    color: var(--color-font-primary);
+    background-color: var(--color-bg-secondary);
+    cursor: pointer;
+  }
+  &__invalid_register {
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    padding:.5rem;
+    justify-content: center;
+    align-items: center;
+    border: solid .08rem coral;
+    border-radius: .25rem;
+    background-color: rgb(240, 178, 178);
+    &__title {
+      font-weight: bold;
+      margin: .5rem .5rem .25rem .5rem;
+    }
+    &__description {
+      margin: .25rem .5rem .5rem .5rem;
+    }
+  }
+}

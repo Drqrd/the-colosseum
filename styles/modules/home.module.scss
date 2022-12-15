@@ -1,0 +1,110 @@
+.container {
+  background-color: var(--color-bg-page-selected);
+  padding: 1.6rem 15%;
+}
+
+.card_help_info {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+  }
+}
+
+.card_hot_predictions {
+  display:flex;
+  flex-direction:column;
+  flex-grow: 1;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height:100%;
+    width:100%;
+  }
+}
+
+.card_how_to_predict {
+  display:flex;
+  flex-direction:column;
+  flex-grow: 1;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height:100%;
+    width:100%;
+  }
+}
+
+.card_leaderboards {
+  display:flex;
+  flex-direction:column;
+  flex-grow: 1;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height:100%;
+  }
+}
+
+.card_notifications {
+  display: flex;
+  flex-direction:column;
+  row-gap: 1.6rem;
+
+  &__item {
+    width:100% !important;
+  }
+
+  &__stream {
+    display: flex; 
+
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+  }
+
+  &__upcoming_events {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    flex-grow:1;
+  }
+}
+
+.flex_grow {
+  flex-grow: 1;
+}
+
+.card_play_a_game {
+
+}
+
+.card_main_website {
+  display: flex;
+  flex-grow: 1;
+}
+
+.card_contact_destiny {
+  display: flex;
+  flex-grow: 1;
+}
+
+.text {
+  color: var(--color-font-primary);
+}

@@ -1,0 +1,51 @@
+.background {
+  position:fixed;
+  background-color:#00000050;
+  z-index: 1000;
+  width:100vw;
+  height:100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.container {
+  position:relative;
+  width:50%;
+  height:90%;
+  background-color: var(--color-bg-tertiary);
+  border-radius: .5rem;
+}
+
+.open {
+  animation: opening .25s forwards;
+}
+
+.close {
+  animation: closing .25s forwards;
+}
+
+.button {
+  position:absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+@keyframes opening {
+  0% {  
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes closing {
+  100% {  
+    transform: scale(0);
+  }
+  0% {
+    transform: scale(1);
+  }
+}
