@@ -20,18 +20,17 @@ const userResolvers = {
       const {username, password, email} = args.registerInput
       // Check if user exists
       const userExists = userData.filter((u) => u.email === email || u.username === username) > 0
-      
-      const newUser = {}
 
       // If already exists, throw error
-      if (userExists) return false 
-      /*
-      throw new GraphQLError('Username / Email already exists', {
-        extensions: {
-          code: 'BAD_USER_INPUT',
-        }
-      })
-      */
+      if (userExists) {
+        throw new GraphQLError('Username / Email already exists', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+          }
+        })
+      }
+
+      const newUser = {}
 
       // Else generate user given input
       //  Username
@@ -53,8 +52,8 @@ const userResolvers = {
       // Add user to db
       userData.push(newUser)
 
-      // return true on success
-      return newUser
+      // return on success
+      return true
     },
   }
 }
