@@ -41,8 +41,6 @@ export default function ModalLogin() {
 
   }
 
-  console.log(tryLogin)
-
   const loginModal = correctLogin !== null && !correctLogin  ? 
     (<Modal
         className={styles.login__container}
@@ -133,4 +131,8 @@ export default function ModalLogin() {
   return (
     loginModal
   )
+}
+
+function ErrorMessage(props) {
+  
 }
