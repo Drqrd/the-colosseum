@@ -2,16 +2,11 @@
 import { makeVar, InMemoryCache } from '@apollo/client'
 
 // initialization
-export const r_user = makeVar({})
 export const r_token = makeVar('')
 export const r_currentPage = makeVar('')
 export const r_activeModal = makeVar('')
 
 // default values
-r_user({
-  logged_in: false
-})
-
 r_token(null)
 
 r_currentPage('HOME')
