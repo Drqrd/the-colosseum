@@ -7,12 +7,6 @@ const userResolvers = {
   Query: {
     users: () => userData,
     getUserById: (parent, args) => userData.filter((u) => u.id === args.id)[0],
-    login: (parent, args) => {
-      const [usernameOrEmail, password] = args.loginInput
-      const user = userData.filter((u) => u.username === usernameOrEmail || u.email === usernameOrEmail)[0]
-      if (user && user.password === bcrypt.hash(password, 10)) return user.token
-      else return 'error'
-    },
   },
   Mutation: {
     register: (parent, args) => {
@@ -61,7 +55,7 @@ const userResolvers = {
       newUser.email = email
       newUser.password = bcrypt.hash(password, 10)
       newUser.token = jwt.sign(
-        { user_id: newUser.id, email },
+        { user_id: email },
         'THIS IS AN UNSAFE STRING',
         {
           expiresIn: '2h',
@@ -73,6 +67,27 @@ const userResolvers = {
 
       // return on success
       return 'success'
+    },
+    login: (parent, args) => {
+      const {usernameOrEmail, password} = args.loginInput
+      const user = userData.filter((u) => u.username === usernameOrEmail || u.email === usernameOrEmail)
+      if (user[0].password && bcrypt.compare(password, user[0].password)) {
+        
+        const token = jwt.sign(
+          { user_id: user.email },
+          'THIS IS AN UNSAFE STRING',
+          {
+            expiresIn: '2h',
+          }
+        )
+        
+        const index = userData.findIndex((u) => u.username === user[0].username)
+        
+        userData[index].token = token
+
+        return userData[index].token
+      }
+      else return 'error'
     },
   }
 }
