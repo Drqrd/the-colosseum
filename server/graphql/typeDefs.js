@@ -20,11 +20,11 @@ input RegisterInput {
 type Query {
   users: [User]
   getUserById(id: ID!): User,
-  login(loginInput: LoginInput!): Boolean!
+  login(loginInput: LoginInput!): String!
 }
 
 type Mutation {
-  register(registerInput: RegisterInput!) : Boolean!
+  register(registerInput: RegisterInput!) : String!
 }
 `
 
