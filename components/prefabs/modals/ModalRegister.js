@@ -44,10 +44,10 @@ export default function ModalRegister() {
     // no __ or _. or ._ or .. inside
     // allowed characters [a-zA-Z0-9._]
     // no _ or . at end
-    const valid_username_re = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/ 
+    const valid_username_re = /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/ 
     if (!valid_username_re.test(username)) {
       setInvalidInput(`Username must conform to the following rules:
-          8 - 20 characters long
+          3 - 20 characters long
           No _ or . at the beginning
           No __ or . or ._ or .. inside
           Characters must be alphanumeric, . or _
