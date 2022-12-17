@@ -107,4 +107,24 @@
       margin: .25rem .5rem .5rem .5rem;
     }
   }
+  &__right_login {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    padding:.5rem;
+    justify-content: center;
+    align-items: center;
+    border: solid .08rem limegreen;
+    border-radius: .25rem;
+    background-color: rgb(163, 220, 163);
+    &__title {
+      font-weight: bold;
+      margin: .5rem .5rem 0 .5rem;
+      text-align: center;
+    }
+    &__description {
+      margin: 0 .5rem .5rem .5rem;
+    }
+  }
 }
