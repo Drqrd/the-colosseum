@@ -110,7 +110,6 @@ function a_logout(client) {
     ...r_user(),
     logged_in: false,
   })
-  client.resetStore()
 }
 
 function a_account() {
