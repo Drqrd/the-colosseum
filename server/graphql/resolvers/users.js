@@ -7,28 +7,47 @@ const userResolvers = {
   Query: {
     users: () => userData,
     getUserById: (parent, args) => userData.filter((u) => u.id === args.id)[0],
-    login: (parent, args) => { 
-      const user = userData.filter((u) => u.username === args.username)[0]
-      if (user && user.password === args.password) {
-        return true
-      }
-      else return false
+    login: (parent, args) => {
+      const [usernameOrEmail, password] = args.loginInput
+      const user = userData.filter((u) => u.username === usernameOrEmail || u.email === usernameOrEmail)[0]
+      if (user && user.password === bcrypt.hash(password, 10)) return user.token
+      else return 'error'
     },
   },
   Mutation: {
     register: (parent, args) => {
       const {username, password, email} = args.registerInput
-      // Check if user exists
-      const userExists = userData.filter((u) => u.email === email || u.username === username) > 0
+
+      // Check if email exists
+      const emailExists = userData.filter((u) => u.email === email).length > 0
 
       // If already exists, throw error
-      if (userExists) {
-        throw new GraphQLError('Username / Email already exists', {
+      if (emailExists) return 'Email already exists'
+      /*
+      if (emailExists) {
+        throw new GraphQLError('Email already exists', {
           extensions: {
             code: 'BAD_USER_INPUT',
           }
         })
       }
+      */
+
+      // Check if username exists
+      const usernameExists = userData.filter((u) => u.username === username).length > 0
+
+      // If already exists, throw error
+      if (usernameExists) return 'Username already exists'
+      /*
+      if (usernameExists) {
+        throw new GraphQLError('Username already exists', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+          }
+        })
+      }
+      */
+
 
       const newUser = {}
 
@@ -53,7 +72,7 @@ const userResolvers = {
       userData.push(newUser)
 
       // return on success
-      return true
+      return 'success'
     },
   }
 }
