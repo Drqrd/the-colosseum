@@ -7,7 +7,7 @@ type User {
 }
 
 input LoginInput {
-  username: String!
+  usernameOrEmail: String!
   password: String!
 }
 
@@ -19,12 +19,13 @@ input RegisterInput {
 
 type Query {
   users: [User]
-  getUserById(id: ID!): User,
-  login(loginInput: LoginInput!): String!
+  getUserById(id: ID!): User
+  
 }
 
 type Mutation {
   register(registerInput: RegisterInput!) : String!
+  login(loginInput: LoginInput!): String!
 }
 `
 
