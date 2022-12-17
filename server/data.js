@@ -1,20 +1,9 @@
 export const userData = [
   {
-    username: 'readmorebooks2',
-    email: 'asdfasdf',
-    password: 'abc123',
-    token: 'asdfasdfasd',
+    username: 'TestTest',
+    email: 'example@domain.com',
+    // password: Test1234!
+    password: '$2b$10$dzCOAG49HDF/et/QEKG/Eu8301K29X69rSH7ghYd9iINI3bjL69eC',
+    token: '',
   },
-  {
-    username: 'TheLegend27',
-    email: 'asdfasdf',
-    password: 'undefeated',
-    token: 'asdfasdf',
-  },
-  {
-    username: 'sysadmin',
-    email: 'asdfasdf',
-    password: 'admin',
-    token: 'asdfasasdfa',
-  }
 ]
