@@ -10,84 +10,79 @@ import { useState } from 'react'
 
 export default function ModalLogin() {
 
-  const [username, modalLogin_setUsername] = useState('')
-  const [password, modalLogin_setPassword] = useState('')
-  const [rememberMe, modalLogin_setRememberMe] = useState(false)
-  const [correctLogin, modalLogin_setCorrectLogin] = useState(null)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
+  const [incorrectLogin, setIncorrectLogin] = useState(false)
 
   const description = 'Accessing further features requires a login.\nPlease enter your credentials below!'
   
   const TRY_LOGIN = gql`
-    query Login($username: String!, $password: String!) {
-      login(username: $username, password: $password)
+    query Login($loginInput: LoginInput!) {
+      login(loginInput: $loginInput)
     }
   `
+
+  const USERS = gql`
+    query Users {
+      users {
+        username
+        password
+        email
+      }
+    }
+  `
+
+  const [getUsers] = useLazyQuery(USERS)
+
   const [tryLogin] = useLazyQuery(TRY_LOGIN, { 
-    variables : { username, password },
+    variables : { 
+      loginInput: {
+        username,
+        password
+      }
+    },
   })
 
-  function modalLogin_handleCheckbox() {
-    modalLogin_setRememberMe(!rememberMe)
+  function handleCheckbox() {
+    setRememberMe(!rememberMe)
   }
 
-  function modalLogin_forgotPassword() {
+  function register() {
+    modalToModalTransition('REGISTER')
+  }
+
+  function forgot_password() {
     modalToModalTransition('FORGOT_PASSWORD')
   }
 
-  function modalLogin_register() {
-    modalToModalTransition('REGISTER')
-  }
-  function modalLogin_incorrectUsernameOrPassword() {
-
-  }
-
-  const loginModal = correctLogin !== null && !correctLogin  ? 
-    (<Modal
-        className={styles.login__container}
-    >
-      <h2 className={styles.login__title}>Login</h2>
-      <div className={styles.login__description_container}>
-        <div className={styles.login__description}>{description}</div>
-      </div>
+  function handleInput() {
+    tryLogin({username, password}).then((resp) => {
+      if (resp.data) {
+        console.log(resp)
       
-      <button className={`${styles.login__register} ${styles.login__label}`}
-        onClick={modalLogin_register}
-      >Need an Account?</button>
+        r_user({
+          ...r_user(),
+          logged_in: resp.data,   
+        })
+        
+        if (resp.data.login !== 'error') {
+          console.log(token)
+          setIncorrectLogin(false)
+          r_token(resp.data.login)
+          setTimeout(() => {
+            modalToModalTransition('')
+          }, 1250)
+        }
+        else {
+          setIncorrectLogin(true)
+        }
+      }
+    })
+  }
 
-      <div className={styles.login__wrong_login}>
-        <div className={styles.login__wrong_login__title}>Wrong Credentials</div>
-        <div className={styles.login__wrong_login__description}>Incorrect Username or Password</div>
-      </div>
-
-      <form className={styles.login__form}>
-        <label className={styles.login__label}>Username or Email Address</label>
-        <input className={styles.login__input} type={'text'} onChange={e => {modalLogin_setUsername(e.currentTarget.value)}}></input>
-        <label className={styles.login__label}>Password</label>
-        <input className={styles.login__input} type={'password'} onChange={e => {modalLogin_setPassword(e.currentTarget.value)}}></input>
-        <div className={styles.login__checkbox_container}>
-          <input className={styles.login__checkbox} type={'checkbox'} onChange={modalLogin_handleCheckbox}></input>
-          <label className={`${styles.login__label} ${styles.login__checkbox_label}`}>Remember Me</label>
-        </div>
-        <input className={styles.login__form_submit} type={'button'} value={'Login'} onClick={(e) => {
-          e.preventDefault()
-          tryLogin(username, password).then((resp) => {
-            r_user({
-              ...r_user(),
-              logged_in: resp.data,   
-            })
-      
-            if (resp.data) {
-              r_token(resp.data.login.token)
-            }
-          })
-        }}></input>
-      </form>
-
-      <button className={`${styles.login__forgot_password} ${styles.login__label}`}
-        onClick={modalLogin_forgotPassword}
-      >Forgot Password?</button>
-    </Modal>) :
-    (<Modal
+  const loginModal = (
+    <Modal
       className={styles.login__container}
     >
       <h2 className={styles.login__title}>Login</h2>
@@ -96,43 +91,43 @@ export default function ModalLogin() {
       </div>
       
       <button className={`${styles.login__register} ${styles.login__label}`}
-        onClick={modalLogin_register}
+        onClick={register}
       >Need an Account?</button>
 
-      <form className={styles.login__form}>
+      <ErrorMessage show={incorrectLogin}/>
+
+      <form className={styles.login__form}
+        onSubmit={ e => {
+          e.preventDefault()
+          handleInput()
+        }}
+      >
         <label className={styles.login__label}>Username or Email Address</label>
-        <input className={styles.login__input} type={'text'} onChange={e => {modalLogin_setUsername(e.currentTarget.value)}}></input>
+        <input className={styles.login__input} type={'text'} onChange={e => {setUsername(e.target.value)}}></input>
         <label className={styles.login__label}>Password</label>
-        <input className={styles.login__input} type={'password'} onChange={e => {modalLogin_setPassword(e.currentTarget.value)}}></input>
+        <input className={styles.login__input} type={'password'} onChange={e => {setPassword(e.target.value)}}></input>
         <div className={styles.login__checkbox_container}>
-          <input className={styles.login__checkbox} type={'checkbox'} onChange={modalLogin_handleCheckbox}></input>
+          <input className={styles.login__checkbox} type={'checkbox'} onChange={handleCheckbox}></input>
           <label className={`${styles.login__label} ${styles.login__checkbox_label}`}>Remember Me</label>
         </div>
-        <input className={styles.login__form_submit} type={'button'} value={'Login'} onClick={(e) => {
-          e.preventDefault()
-          tryLogin(username, password).then((resp) => {
-            r_user({
-              ...r_user(),
-              logged_in: resp.data,   
-            })
-      
-            if (resp.data) {
-              r_token(resp.data.login.token)
-            }
-          })
-        }}></input>
+        <button className={styles.login__form_submit} type={'submit'}>Login</button>
       </form>
 
       <button className={`${styles.login__forgot_password} ${styles.login__label}`}
-        onClick={modalLogin_forgotPassword}
+        onClick={forgot_password}
       >Forgot Password?</button>
-    </Modal>)
-
-  return (
-    loginModal
+    </Modal>
   )
+
+  return loginModal
 }
 
 function ErrorMessage(props) {
-  
+  return ( props.show ? 
+    <div className={styles.login__wrong_login}>
+      <div className={styles.login__wrong_login__title}>Wrong Credentials</div>
+      <div className={styles.login__wrong_login__description}>Incorrect Input</div>
+    </div> : 
+    ''
+  )
 }
