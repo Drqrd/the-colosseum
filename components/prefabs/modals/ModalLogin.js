@@ -23,19 +23,6 @@ export default function ModalLogin() {
     }
   `
 
-  const USERS = gql`
-    query Users {
-      users {
-        username
-        password
-        email
-        token
-      }
-    }
-  `
-
-  const [getUsers] = useLazyQuery(USERS)
-
   const [tryLogin] = useMutation(TRY_LOGIN, { 
     variables : { 
       loginInput: {
@@ -59,33 +46,20 @@ export default function ModalLogin() {
 
   function handleInput() {
     tryLogin({usernameOrEmail, password}).then((resp) => {
-      if (resp.data) {
-        console.log(resp)
-      
-        r_user({
-          ...r_user(),
-          logged_in: resp.data,   
-        })
-        
+      if (resp.data) {        
         if (resp.data.login !== 'error') {
           setLoginState(true)
           r_token(resp.data.login)
           setTimeout(() => {
+            r_user({
+              ...r_user(),
+              logged_in: true,   
+            })
             modalToModalTransition('')
           }, 1250)
         }
-        else {
-          setLoginState(false)
-        }
+        else setLoginState(false)
       }
-    })
-
-    getUsers().then((resp) => {
-      console.log(resp.data.users[0])
-
-      console.log(resp.data.users[0].token)
-      console.log(r_token())
-      console.log(r_token() === resp.data.users[0].token)
     })
   }
 
