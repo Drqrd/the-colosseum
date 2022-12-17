@@ -2,7 +2,7 @@ import styles from '@/scss/header.module.scss'
 
 import IconButton from '@/primitives/IconButton'
 
-import { r_user, r_currentPage, r_activeModal } from 'models/cache'
+import { r_token,  r_currentPage, r_activeModal } from 'models/cache'
 
 import { useReactiveVar } from '@apollo/client'
 
@@ -10,12 +10,12 @@ import Link from 'next/link'
 
 import { mdiAccount, mdiLogin, mdiLogout } from '@mdi/js'
 
-export default function Header(props) {
+export default function Header() {
 
-  const userState = useReactiveVar(r_user)
+  const userState = useReactiveVar(r_token)
   const pageState = useReactiveVar(r_currentPage)
 
-  const userIcons = userState.logged_in ? (
+  const userIcons = userState !== null ? (
     <div className={styles.nav_container__right}>
       <IconButton
         size={2.4}
@@ -29,7 +29,7 @@ export default function Header(props) {
         size={2.4}
         rounded={true}
         icon={mdiLogout}
-        onClick={a_logout(props.client)}
+        onClick={a_logout}
         textRight={'Logout'}
         className={styles.nav_icon}
       />
@@ -102,14 +102,12 @@ export default function Header(props) {
 
 function a_login() {
   r_activeModal('LOGIN')
-
 }
 
-function a_logout(client) {
-  r_user({
-    ...r_user(),
-    logged_in: false,
-  })
+function a_logout() {
+  setTimeout(() => {
+    r_token(null)
+  }, 100)
 }
 
 function a_account() {
