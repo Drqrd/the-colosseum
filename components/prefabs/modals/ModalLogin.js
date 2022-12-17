@@ -4,7 +4,7 @@ import styles from '@/scss/modals/modalLogin.module.scss'
 import { modalToModalTransition } from '@/prefabs/Modals'
 
 import { useLazyQuery, useMutation, gql } from "@apollo/client"
-import { r_user, r_token } from 'models/cache'
+import { r_token } from 'models/cache'
 import { useState } from 'react'
 
 
@@ -49,12 +49,8 @@ export default function ModalLogin() {
       if (resp.data) {        
         if (resp.data.login !== 'error') {
           setLoginState(true)
-          r_token(resp.data.login)
           setTimeout(() => {
-            r_user({
-              ...r_user(),
-              logged_in: true,   
-            })
+            r_token(resp.data.login)
             modalToModalTransition('')
           }, 1250)
         }
