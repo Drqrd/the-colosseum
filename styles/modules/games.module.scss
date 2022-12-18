@@ -1,0 +1,12 @@
+.wrapper {
+  display:flex;
+  justify-content: center;
+  width: 100vw;
+  height: calc(100vh - 5.6rem - 1.6rem);
+}
+
+.pagination_container {
+  width: 75%;
+  height: 100%;
+  background-color: var(--color-bg-secondary);
+}
