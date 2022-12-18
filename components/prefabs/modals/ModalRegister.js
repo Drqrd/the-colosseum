@@ -1,5 +1,5 @@
 import Modal from '@/primitives/Modal'
-import styles from '@/scss/modals/modalRegister.module.scss'
+import styles from '@/scss/modalRegister.module.scss'
 
 import { modalToModalTransition } from '@/prefabs/Modals'
 import { useMutation, gql } from '@apollo/client'

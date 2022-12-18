@@ -1,5 +1,5 @@
 import Modal from '@/primitives/Modal'
-import styles from '@/scss/modals/modalLogin.module.scss'
+import styles from '@/scss/modalLogin.module.scss'
 
 import { modalToModalTransition } from '@/prefabs/Modals'
 
