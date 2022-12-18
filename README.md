@@ -1,5 +1,6 @@
 ## The Colosseum
 
+Nov. 2022 - Present<br>
 A personal project created by Justin Man<br>
 <br>
 My motivations for this project were to develop my skills in Fullstack development, using React and GraphQL (through Apollo)<br>
