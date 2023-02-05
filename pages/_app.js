@@ -42,7 +42,7 @@ export default function MyApp({ Component, pageProps }) {
       <Layout>
         <Head>
           <title>The Colosseum</title>
-          <link rel="shortcut icon" href="/favicons/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <Component
           {...pageProps}
