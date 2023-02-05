@@ -6,6 +6,10 @@ type User {
   token: String!
 }
 
+type Error {
+  error: String!
+}
+
 input LoginInput {
   usernameOrEmail: String!
   password: String!
@@ -17,15 +21,17 @@ input RegisterInput {
   email: String!
 }
 
+union LoginResult = User | Error
+
 type Query {
   users: [User]
   getUserById(id: ID!): User
-  
+  getUserByToken(token: String!): User
 }
 
 type Mutation {
   register(registerInput: RegisterInput!) : String!
-  login(loginInput: LoginInput!): String!
+  login(loginInput: LoginInput!): User!
 }
 `
 
