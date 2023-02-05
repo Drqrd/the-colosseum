@@ -2,9 +2,9 @@ import styles from '@/scss/header.module.scss'
 
 import IconButton from '@/primitives/IconButton'
 
-import { r_token,  r_currentPage, r_activeModal } from 'models/cache'
+import { r_user, r_token,  r_currentPage, r_activeModal } from 'models/cache'
 
-import { useReactiveVar } from '@apollo/client'
+import { useReactiveVar, gql, useLazyQuery } from '@apollo/client'
 
 import Link from 'next/link'
 
@@ -12,40 +12,10 @@ import { mdiAccount, mdiLogin, mdiLogout } from '@mdi/js'
 
 export default function Header() {
 
-  const userState = useReactiveVar(r_token)
+  const tokenState = useReactiveVar(r_token)
   const pageState = useReactiveVar(r_currentPage)
 
-  const userIcons = userState !== null ? (
-    <div className={styles.nav_container__right}>
-      <IconButton
-        size={2.4}
-        rounded={true}
-        icon={mdiAccount}
-        onClick={a_account}
-        textRight={'Account'}
-        className={styles.nav_icon}
-      />
-      <IconButton
-        size={2.4}
-        rounded={true}
-        icon={mdiLogout}
-        onClick={a_logout}
-        textRight={'Logout'}
-        className={styles.nav_icon}
-      />
-    </div>
-  ) : (
-    <div className={styles.nav_container__right}>
-      <IconButton
-        size={2.4}
-        rounded={true}
-        icon={mdiLogin}
-        onClick={a_login}
-        textRight={'Login'}
-        className={styles.nav_icon}
-      />
-    </div>
-  )
+  const userIcons = tokenState !== null ? <LoggedIcons/> : <NotLoggedIcons/>
 
   return (
     <div className={styles.container}>
@@ -100,6 +70,51 @@ export default function Header() {
   )
 }
 
+function LoggedIcons() {
+  const userInfo = useReactiveVar(r_user)
+
+  return (
+    <div className={styles.nav_container__right}>
+      <Link
+        href={`/account/${userInfo.username}`}
+        className={styles.account}
+      >
+        <IconButton
+          size={2.4}
+          rounded={true}
+          icon={mdiAccount}
+          onClick={a_account}
+          textRight={'Account'}
+          className={styles.nav_icon}
+        />
+      </Link>
+      <IconButton
+        size={2.4}
+        rounded={true}
+        icon={mdiLogout}
+        onClick={a_logout}
+        textRight={'Logout'}
+        className={styles.nav_icon}
+      />
+    </div>
+  )
+}
+
+function NotLoggedIcons() {
+  return (
+    <div className={styles.nav_container__right}>
+      <IconButton
+        size={2.4}
+        rounded={true}
+        icon={mdiLogin}
+        onClick={a_login}
+        textRight={'Login'}
+        className={styles.nav_icon}
+      />
+    </div>
+  )
+}
+
 function a_login() {
   r_activeModal('LOGIN')
 }
@@ -111,7 +126,7 @@ function a_logout() {
 }
 
 function a_account() {
-  console.log('Navigating to account...')
+  r_currentPage('ACCOUNT')
 }
 
 function a_home() {
