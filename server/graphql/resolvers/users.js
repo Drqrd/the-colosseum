@@ -7,6 +7,7 @@ const userResolvers = {
   Query: {
     users: () => userData,
     getUserById: (parent, args) => userData.filter((u) => u.id === args.id)[0],
+    getUserByToken: (parent, args) => userData.filter((u) => u.token === args.token)[0]
   },
   Mutation: {
     register: (parent, args) => {
@@ -89,10 +90,10 @@ const userResolvers = {
         
         userData[index].token = token
 
-        return userData[index].token
+        return userData[index]
       }
       
-      return 'error'
+      return null
     },
   }
 }
