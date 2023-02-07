@@ -95,6 +95,12 @@ const userResolvers = {
       
       return null
     },
+
+    deleteAccount: async (parent, args) => {
+      const email = args.email
+      userData.splice(userData.findIndex((u) => u.email === email), 1)
+      return 'deleted'
+    }
   }
 }
 
