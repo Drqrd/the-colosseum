@@ -56,9 +56,10 @@ export default function ModalLogin() {
           setTimeout(() => {
             r_token(resp.data.login.token)
             r_user({
-              username: resp.data.login.username
+              username: resp.data.login.username,
+              email: resp.data.login.email
             })
-            console.log(resp.data)
+            console.log(r_user)
             modalToModalTransition('')
           }, 1250)
       }
