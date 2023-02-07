@@ -30,8 +30,9 @@ type Query {
 }
 
 type Mutation {
-  register(registerInput: RegisterInput!) : String!
+  register(registerInput: RegisterInput!): String!
   login(loginInput: LoginInput!): User!
+  deleteAccount(email: String!): String!
 }
 `
 
